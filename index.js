@@ -1,3 +1,3 @@
 exports.test = function() {
-	console.log("Syndis testing!");
+	console.log("World, hello!");
 }
